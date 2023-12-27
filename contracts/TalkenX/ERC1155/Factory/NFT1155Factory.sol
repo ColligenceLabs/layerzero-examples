@@ -199,22 +199,7 @@ abstract contract NFT1155Factory is NonblockingLzApp, ERC165, INFT1155Factory {
         emit SetUseCustomAdapterParams(_useCustomAdapterParams);
     }
 
-    function _debitFrom(
-        address _from,
-        uint16 _dstChainId,
-        bytes memory _toAddress,
-        uint256[] memory _tokenIds,
-        uint256[] memory _amounts
-    ) internal virtual;
-
-    function _creditTo(
-        uint16 _srcChainId,
-        address _toAddress,
-        uint256[] memory _tokenIds,
-        uint256[] memory _amounts
-    ) internal virtual;
-
-    function _toSingletonArray(uint256 element) internal pure returns (uint256[] memory) {
+    function _toSingletonArray(uint element) internal pure returns (uint256[] memory) {
         uint[] memory array = new uint[](1);
         array[0] = element;
         return array;
