@@ -29,24 +29,32 @@ abstract contract NFT1155Core is NonblockingLzApp, ERC165, INFT1155Core {
 
     function estimateSendFee(
         uint16 _dstChainId,
+        bytes memory _tokenAddress,
         bytes memory _toAddress,
         uint _tokenId,
         uint _amount,
+        string memory _name,
+        string memory _symbol,
+        string memory _uri,
         bool _useZro,
         bytes memory _adapterParams
     ) public view virtual override returns (uint nativeFee, uint zroFee) {
-        return estimateSendBatchFee(_dstChainId, _toAddress, _toSingletonArray(_tokenId), _toSingletonArray(_amount), _useZro, _adapterParams);
+        return estimateSendBatchFee(_dstChainId, _tokenAddress, _toAddress, _toSingletonArray(_tokenId), _toSingletonArray(_amount), _name, _symbol, _toSingletonStringArray(_uri), _useZro, _adapterParams);
     }
 
     function estimateSendBatchFee(
         uint16 _dstChainId,
+        bytes memory _tokenAddress,
         bytes memory _toAddress,
         uint[] memory _tokenIds,
         uint[] memory _amounts,
+        string memory _name,
+        string memory _symbol,
+        string[] memory _uris,
         bool _useZro,
         bytes memory _adapterParams
     ) public view virtual override returns (uint nativeFee, uint zroFee) {
-        bytes memory payload = abi.encode(_toAddress, _tokenIds, _amounts);
+        bytes memory payload = abi.encode(_tokenAddress, _toAddress, _tokenIds, _amounts, _name, _symbol, _uris);
         return lzEndpoint.estimateFees(_dstChainId, address(this), payload, _useZro, _adapterParams);
     }
 
@@ -179,6 +187,12 @@ abstract contract NFT1155Core is NonblockingLzApp, ERC165, INFT1155Core {
 
     function _toSingletonArray(uint element) internal pure returns (uint[] memory) {
         uint[] memory array = new uint[](1);
+        array[0] = element;
+        return array;
+    }
+
+    function _toSingletonStringArray(string memory element) internal pure returns (string[] memory) {
+        string[] memory array = new string[](1);
         array[0] = element;
         return array;
     }

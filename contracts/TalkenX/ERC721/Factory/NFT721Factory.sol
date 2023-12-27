@@ -60,7 +60,15 @@ contract NFT721Factory is NonblockingLzApp, ERC165, ReentrancyGuard, INFT721Fact
         bool _useZro,
         bytes memory _adapterParams
     ) public view virtual override returns (uint nativeFee, uint zroFee) {
-        bytes memory payload = abi.encode(_tokenAddress, _toAddress, _tokenIds);
+        address tokenAddress;
+        assembly {
+            tokenAddress := mload(add(_tokenAddress, 20))
+        }
+
+        address targetAddress = tokenMap[tokenAddress];
+        require(tokenExists[targetAddress], "Not available NFT");
+
+        bytes memory payload = abi.encode(abi.encodePacked(targetAddress), _toAddress, _tokenIds);
         return lzEndpoint.estimateFees(_dstChainId, address(this), payload, _useZro, _adapterParams);
     }
 

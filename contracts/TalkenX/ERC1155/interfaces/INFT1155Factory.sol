@@ -49,6 +49,7 @@ interface INFT1155Factory is IERC165 {
     // _adapterParams - flexible bytes array to indicate messaging adapter services in L0
     function estimateSendFee(
         uint16 _dstChainId,
+        bytes calldata _tokenAddress,
         bytes calldata _toAddress,
         uint _tokenId,
         uint _amount,
@@ -64,6 +65,7 @@ interface INFT1155Factory is IERC165 {
     // _adapterParams - flexible bytes array to indicate messaging adapter services in L0
     function estimateSendBatchFee(
         uint16 _dstChainId,
+        bytes calldata _tokenAddress,
         bytes calldata _toAddress,
         uint[] calldata _tokenIds,
         uint[] calldata _amounts,

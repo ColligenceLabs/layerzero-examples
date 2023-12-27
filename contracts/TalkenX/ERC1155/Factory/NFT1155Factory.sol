@@ -30,24 +30,34 @@ abstract contract NFT1155Factory is NonblockingLzApp, ERC165, INFT1155Factory {
 
     function estimateSendFee(
         uint16 _dstChainId,
+        bytes memory _tokenAddress,
         bytes memory _toAddress,
         uint _tokenId,
         uint _amount,
         bool _useZro,
         bytes memory _adapterParams
     ) public view virtual override returns (uint nativeFee, uint zroFee) {
-        return estimateSendBatchFee(_dstChainId, _toAddress, _toSingletonArray(_tokenId), _toSingletonArray(_amount), _useZro, _adapterParams);
+        return estimateSendBatchFee(_dstChainId, _tokenAddress, _toAddress, _toSingletonArray(_tokenId), _toSingletonArray(_amount), _useZro, _adapterParams);
     }
 
     function estimateSendBatchFee(
         uint16 _dstChainId,
+        bytes memory _tokenAddress,
         bytes memory _toAddress,
         uint[] memory _tokenIds,
         uint[] memory _amounts,
         bool _useZro,
         bytes memory _adapterParams
     ) public view virtual override returns (uint nativeFee, uint zroFee) {
-        bytes memory payload = abi.encode(_toAddress, _tokenIds, _amounts);
+        address tokenAddress;
+        assembly {
+            tokenAddress := mload(add(_tokenAddress, 20))
+        }
+
+        address targetAddress = tokenMap[tokenAddress];
+        require(tokenExists[targetAddress], "Not available NFT");
+
+        bytes memory payload = abi.encode(abi.encodePacked(targetAddress), _toAddress, _tokenIds, _amounts);
         return lzEndpoint.estimateFees(_dstChainId, address(this), payload, _useZro, _adapterParams);
     }
 
