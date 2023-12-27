@@ -9,6 +9,9 @@
   "description": "example contracts",
   "main": "index.js",
   "scripts": {
+    "clean": "hardhat clean",
+    "compile": "hardhat compile",
+    "build": "hardhat clean && hardhat compile",
     "test": "npx hardhat test --parallel",
     "prettier": "prettier --write test/**/*.js && prettier --write test/*/*/*.js && prettier --write deploy/*.js && prettier --write tasks/*.js && prettier --write contracts/**/*.sol && prettier --write contracts/**/**/*.sol && prettier --write contracts/**/**/**/*.sol",
     "lint": "yarn prettier && solhint 'contracts/*.sol' && solhint 'contracts/**/*.sol' && solhint 'contracts/**/**/*.sol' && solhint 'contracts/**/**/**/*.sol'"
