@@ -6,14 +6,17 @@
   "arbitrum":         110,
   "optimism":         111,
   "fantom":           112,
+  "klaytn":           150,
 
   "goerli":           10121,
+  "sepolia":          10161,
   "bsc-testnet":      10102,
   "fuji":             10106,
   "mumbai":           10109,
   "arbitrum-goerli":  10143,
   "optimism-goerli":  10132,
   "fantom-testnet":   10112,
+  "baobab":           10150,
   "meter-testnet":    10156,
   "zksync-testnet":   10165
 }
