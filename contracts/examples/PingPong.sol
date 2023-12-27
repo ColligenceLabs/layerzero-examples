@@ -19,7 +19,6 @@ import "../lzApp/NonblockingLzApp.sol";
 /// @title PingPong
 /// @notice Sends a LayerZero message back and forth between chains a predetermined number of times.
 contract PingPong is NonblockingLzApp {
-
     /// @dev event emitted every ping() to keep track of consecutive pings count
     event Ping(uint256 pingCount);
 
@@ -29,10 +28,7 @@ contract PingPong is NonblockingLzApp {
     /// @notice Pings the destination chain, along with the current number of pings sent.
     /// @param _dstChainId The destination chain ID.
     /// @param _totalPings The total number of pings to send.
-    function ping(
-        uint16 _dstChainId,
-        uint256 _totalPings
-    ) public {
+    function ping(uint16 _dstChainId, uint256 _totalPings) public {
         _ping(_dstChainId, 0, _totalPings);
     }
 
@@ -56,11 +52,11 @@ contract PingPong is NonblockingLzApp {
         bytes memory adapterParams = abi.encodePacked(version, gasForDestinationLzReceive);
 
         // send LayerZero message
-        _lzSend(           // {value: messageFee} will be paid out of this contract!
-            _dstChainId,   // destination chainId
-            payload,       // abi.encode()'ed bytes
+        _lzSend( // {value: messageFee} will be paid out of this contract!
+            _dstChainId, // destination chainId
+            payload, // abi.encode()'ed bytes
             payable(this), // (msg.sender will be this contract) refund address (LayerZero will refund any extra gas back to caller of send())
-            address(0x0),  // future param, unused for this example
+            address(0x0), // future param, unused for this example
             adapterParams, // v1 adapterParams, specify custom destination gas qty
             address(this).balance
         );

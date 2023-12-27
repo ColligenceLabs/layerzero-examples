@@ -89,7 +89,6 @@ describe("NativeOFTV2: ", function () {
         expect(await nativeOFTV2.outboundAmount()).to.be.equal(totalAmount)
         expect(await remoteOFTV2.totalSupply()).to.be.equal(totalAmount)
 
-
         let ownerBalance2 = await ethers.provider.getBalance(owner.address)
 
         const aliceAddressBytes32 = ethers.utils.defaultAbiCoder.encode(["address"], [alice.address])

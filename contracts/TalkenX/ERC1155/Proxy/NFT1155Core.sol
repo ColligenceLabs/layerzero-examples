@@ -39,7 +39,19 @@ abstract contract NFT1155Core is NonblockingLzApp, ERC165, INFT1155Core {
         bool _useZro,
         bytes memory _adapterParams
     ) public view virtual override returns (uint nativeFee, uint zroFee) {
-        return estimateSendBatchFee(_dstChainId, _tokenAddress, _toAddress, _toSingletonArray(_tokenId), _toSingletonArray(_amount), _name, _symbol, _toSingletonStringArray(_uri), _useZro, _adapterParams);
+        return
+            estimateSendBatchFee(
+                _dstChainId,
+                _tokenAddress,
+                _toAddress,
+                _toSingletonArray(_tokenId),
+                _toSingletonArray(_amount),
+                _name,
+                _symbol,
+                _toSingletonStringArray(_uri),
+                _useZro,
+                _adapterParams
+            );
     }
 
     function estimateSendBatchFee(

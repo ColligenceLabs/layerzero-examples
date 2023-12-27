@@ -7,19 +7,18 @@ import "../lzApp/NonblockingLzApp.sol";
 /// @title GasDrop
 /// @notice A contract for sending and receiving gas across chains using LayerZero's NonblockingLzApp.
 contract GasDrop is NonblockingLzApp {
-
     /// @notice The version of the adapterParams.
     uint16 public constant VERSION = 2;
-    
+
     /// @notice The default amount of gas to be used on the destination chain.
     uint public dstGas = 25000;
 
     /// @dev Emitted when the destination gas is updated.
     event SetDstGas(uint dstGas);
-    
+
     /// @dev Emitted when a gas drop is sent.
     event SendGasDrop(uint16 indexed _dstChainId, address indexed _from, bytes indexed _toAddress, uint _amount);
-    
+
     /// @dev Emitted when a gas drop is received on this chain.
     event ReceiveGasDrop(uint16 indexed _srcChainId, address indexed _from, bytes indexed _toAddress, uint _amount);
 
@@ -29,7 +28,12 @@ contract GasDrop is NonblockingLzApp {
     /// @dev Internal function to handle incoming LayerZero messages and emit a ReceiveGasDrop event.
     /// @param _srcChainId The source chain ID from where the message originated.
     /// @param _payload The payload of the incoming message.
-    function _nonblockingLzReceive(uint16 _srcChainId, bytes memory, uint64, bytes memory _payload) internal virtual override {
+    function _nonblockingLzReceive(
+        uint16 _srcChainId,
+        bytes memory,
+        uint64,
+        bytes memory _payload
+    ) internal virtual override {
         (uint amount, address fromAddress, bytes memory toAddress) = abi.decode(_payload, (uint, address, bytes));
         emit ReceiveGasDrop(_srcChainId, fromAddress, toAddress, amount);
     }
@@ -41,10 +45,15 @@ contract GasDrop is NonblockingLzApp {
     /// @param _useZro Whether to use ZRO for payment or not.
     /// @return nativeFee The total native fee for all destinations.
     /// @return zroFee The total ZRO fee for all destinations.
-    function estimateSendFee(uint16[] calldata _dstChainId, bytes[] calldata _toAddress, uint[] calldata _amount, bool _useZro) external view virtual returns (uint nativeFee, uint zroFee) {
+    function estimateSendFee(
+        uint16[] calldata _dstChainId,
+        bytes[] calldata _toAddress,
+        uint[] calldata _amount,
+        bool _useZro
+    ) external view virtual returns (uint nativeFee, uint zroFee) {
         require(_dstChainId.length == _toAddress.length, "_dstChainId and _toAddress must be same size");
         require(_toAddress.length == _amount.length, "_toAddress and _amount must be same size");
-        for(uint i = 0; i < _dstChainId.length; i++) {
+        for (uint i = 0; i < _dstChainId.length; i++) {
             bytes memory adapterParams = abi.encodePacked(VERSION, dstGas, _amount[i], _toAddress[i]);
             bytes memory payload = abi.encode(_amount[i], msg.sender, _toAddress[i]);
             (uint native, uint zro) = lzEndpoint.estimateFees(_dstChainId[i], address(this), payload, _useZro, adapterParams);
@@ -59,11 +68,17 @@ contract GasDrop is NonblockingLzApp {
     /// @param _amount Array of amounts to send.
     /// @param _refundAddress Address for refunds.
     /// @param _zroPaymentAddress Address for ZRO payments.
-    function gasDrop(uint16[] calldata _dstChainId, bytes[] calldata _toAddress, uint[] calldata _amount, address payable _refundAddress, address _zroPaymentAddress) external payable virtual {
+    function gasDrop(
+        uint16[] calldata _dstChainId,
+        bytes[] calldata _toAddress,
+        uint[] calldata _amount,
+        address payable _refundAddress,
+        address _zroPaymentAddress
+    ) external payable virtual {
         require(_dstChainId.length == _toAddress.length, "_dstChainId and _toAddress must be same size");
         require(_toAddress.length == _amount.length, "_toAddress and _amount must be same size");
         uint _dstGas = dstGas;
-        for(uint i = 0; i < _dstChainId.length; i++) {
+        for (uint i = 0; i < _dstChainId.length; i++) {
             bytes memory adapterParams = abi.encodePacked(VERSION, _dstGas, _amount[i], _toAddress[i]);
             bytes memory payload = abi.encode(_amount[i], msg.sender, _toAddress[i]);
             address payable refundAddress = (i == _dstChainId.length - 1) ? _refundAddress : payable(address(this));

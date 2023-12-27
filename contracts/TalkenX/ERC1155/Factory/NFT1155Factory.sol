@@ -37,7 +37,16 @@ abstract contract NFT1155Factory is NonblockingLzApp, ERC165, INFT1155Factory {
         bool _useZro,
         bytes memory _adapterParams
     ) public view virtual override returns (uint nativeFee, uint zroFee) {
-        return estimateSendBatchFee(_dstChainId, _tokenAddress, _toAddress, _toSingletonArray(_tokenId), _toSingletonArray(_amount), _useZro, _adapterParams);
+        return
+            estimateSendBatchFee(
+                _dstChainId,
+                _tokenAddress,
+                _toAddress,
+                _toSingletonArray(_tokenId),
+                _toSingletonArray(_amount),
+                _useZro,
+                _adapterParams
+            );
     }
 
     function estimateSendBatchFee(

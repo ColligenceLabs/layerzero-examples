@@ -196,7 +196,7 @@ describe("NativeOFTWithFee: ", function () {
 
         let ld2sdRate = 10 ** (18 - sharedDecimals)
         let dust = totalAmount.sub(fee).mod(ld2sdRate)
-        let totalMintAmount = (totalAmount.sub(fee)).sub(dust)
+        let totalMintAmount = totalAmount.sub(fee).sub(dust)
 
         await nativeOFTWithFee.sendFrom(
             owner.address,
