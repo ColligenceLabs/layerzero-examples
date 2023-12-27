@@ -214,7 +214,7 @@ abstract contract NFT721Core is NonblockingLzApp, ERC165, ReentrancyGuard, INFT7
     // When a srcChain has the ability to transfer more chainIds in a single tx than the dst can do.
     // Needs the ability to iterate and stop if the minGasToTransferAndStore is not met
     function _creditTill(
-        uint16 _srcChainId,
+        uint16,
         address _tokenAddress,
         address _toAddress,
         uint _startIndex,
