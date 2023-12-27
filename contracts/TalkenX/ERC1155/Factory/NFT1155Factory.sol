@@ -105,9 +105,12 @@ abstract contract NFT1155Factory is NonblockingLzApp, ERC165, INFT1155Factory {
             tokenAddress := mload(add(_tokenAddress, 20))
         }
 
+        address targetAddress = tokenMap[tokenAddress];
+        require(tokenExists[targetAddress], "Not available NFT");
+
         INFT1155(tokenAddress).debitFrom(_from, _dstChainId, _toAddress, _tokenIds, _amounts);
 
-        bytes memory payload = abi.encode(tokenMap[tokenAddress], _toAddress, _tokenIds, _amounts);
+        bytes memory payload = abi.encode(abi.encodePacked(targetAddress), _toAddress, _tokenIds, _amounts);
         if (_tokenIds.length == 1) {
             if (useCustomAdapterParams) {
                 _checkGasLimit(_dstChainId, FUNCTION_TYPE_SEND, _adapterParams, NO_EXTRA_GAS);
