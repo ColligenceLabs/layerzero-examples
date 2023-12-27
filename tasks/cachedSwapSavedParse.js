@@ -1,15 +1,15 @@
 const CHAIN_ID = {
-    "ethereum":         101,
-    "bsc":              102,
-    "avalanche":        106,
-    "polygon":          109,
-    "arbitrum":         110,
-    "optimism":         111,
-    "fantom":           112,
-    "metis":            151,
-    "base":             184,
-    "linea":            183,
-    "kava":             177
+    ethereum: 101,
+    bsc: 102,
+    avalanche: 106,
+    polygon: 109,
+    arbitrum: 110,
+    optimism: 111,
+    fantom: 112,
+    metis: 151,
+    base: 184,
+    linea: 183,
+    kava: 177,
 }
 
 const STG_FACTORIES = {

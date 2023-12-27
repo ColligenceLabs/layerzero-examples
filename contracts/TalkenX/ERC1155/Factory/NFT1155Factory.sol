@@ -199,7 +199,7 @@ abstract contract NFT1155Factory is NonblockingLzApp, ERC165, INFT1155Factory {
         emit SetUseCustomAdapterParams(_useCustomAdapterParams);
     }
 
-    function _toSingletonArray(uint element) internal pure returns (uint256[] memory) {
+    function _toSingletonArray(uint element) internal pure returns (uint[] memory) {
         uint[] memory array = new uint[](1);
         array[0] = element;
         return array;

@@ -8,7 +8,7 @@ module.exports = {
                 tabWidth: 4,
                 useTabs: false,
                 singleQuote: false,
-                explicitTypes: "never",
+                explicitTypes: "never", // "always"
             },
         },
         {

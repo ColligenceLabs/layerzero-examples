@@ -28,7 +28,7 @@ contract NFT1155 is ERC1155URIStorage {
         return symbol_;
     }
 
-    function setURI(uint256 tokenId, string memory tokenURI) public {
+    function setURI(uint tokenId, string memory tokenURI) public {
         _setURI(tokenId, tokenURI);
     }
 
