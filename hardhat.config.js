@@ -122,6 +122,11 @@ module.exports = {
             chainId: 137,
             accounts: accounts(),
         },
+        klaytn: {
+            url: "https://klaytn-en.kommunedao.xyz:8651",
+            chainId: 8217,
+            accounts: accounts(),
+        },
         arbitrum: {
             url: `https://arb1.arbitrum.io/rpc`,
             chainId: 42161,
@@ -148,6 +153,11 @@ module.exports = {
             chainId: 5,
             accounts: accounts(),
         },
+        sepolia: {
+            url: "https://sepolia.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161", // public infura endpoint
+            chainId: 11155111,
+            accounts: accounts(),
+        },
         "bsc-testnet": {
             url: "https://data-seed-prebsc-1-s1.binance.org:8545/",
             chainId: 97,
@@ -161,6 +171,11 @@ module.exports = {
         mumbai: {
             url: "https://rpc-mumbai.maticvigil.com/",
             chainId: 80001,
+            accounts: accounts(),
+        },
+        baobab: {
+            url: "https://public-en-baobab.klaytn.net",
+            chainId: 1001,
             accounts: accounts(),
         },
         "arbitrum-goerli": {
