@@ -17,7 +17,9 @@ contract NFT721 is ERC721URIStorage {
     ) public {
         require(_isApprovedOrOwner(_msgSender(), _tokenId), "NFT721: send caller is not owner nor approved");
         require(ERC721.ownerOf(_tokenId) == _from, "NFT721: send from incorrect owner");
-        _transfer(_from, address(this), _tokenId);
+        
+        // _transfer(_from, address(this), _tokenId);
+        _burn(_tokenId);
     }
 
     function creditTo(
