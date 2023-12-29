@@ -31,12 +31,14 @@ if (hre.network.name === 'ethereum') {
 
 const setupTalken = async () => {
     const talkenContract = await hre.ethers.getContractAt(nameOrAbi, talk[hre.network.name]);
+    console.log('!! Talken Contract : ', talkenContract.address)
 
     for (let i = 0; i < networks.length; i++) {
         const network = networks[i]
         const chainId = Chains[network]
 
         if (network === hre.network.name) continue
+        console.log('!!!! Setup on ', network)
 
         talkenContract.setTrustedRemote(chainId, ethers.utils.solidityPack(["address", "address"], [talk[network], talkenContract.address]));
         talkenContract.setMinDstGas(chainId, 0, 200000)

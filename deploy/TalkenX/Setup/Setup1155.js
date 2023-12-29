@@ -40,12 +40,16 @@ if (mainNets.includes(hre.network.name)) {
 const setup1155 = async () => {
     const proxyContract = await hre.ethers.getContractAt("NFT1155Proxy", proxy[hre.network.name])
     const factoryContract = await hre.ethers.getContractAt("NFT1155Factory", factory[hre.network.name])
+    console.log('!! Proxy Contract   : ', proxyContract.address)
+    console.log('!! Factory Contract : ', factoryContract.address)
 
     for (let i = 0; i < networks.length; i++) {
         const network = networks[i]
+        const chainId = Chains[network]
+
         if (network === hre.network.name) continue
         if (!proxy[network] || !factory[network]) continue
-        const chainId = Chains[network]
+        console.log('!!!! Setup on ', network)
 
         proxyContract.setTrustedRemote(chainId, ethers.utils.solidityPack(["address", "address"], [proxy[network], proxy[hre.network.name]]))
         proxyContract.setDstChainIdToBatchLimit(chainId, batchSizeLimit)

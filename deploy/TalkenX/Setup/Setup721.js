@@ -30,34 +30,35 @@ const factory = {
 const mainNets = ["ethereum", "bsc", "polygon", "klaytn"]
 const testNets = ["sepolia", "bsc-testnet","mumbai", "baobab"]
 
-console.log('==========', hre.network.name)
 const setup721 = async () => {
     const proxyContract = await hre.ethers.getContractAt("NFT721Proxy", proxy[hre.network.name])
     const factoryContract = await hre.ethers.getContractAt("NFT721Factory", factory[hre.network.name])
     console.log('!! Proxy Contract   : ', proxyContract.address)
     console.log('!! Factory Contract : ', factoryContract.address)
 
-    // let networks
-    // if (mainNets.includes(hre.network.name)) {
-    //     networks = mainNets
-    // } else if (testNets.includes(hre.network.name)) {
-    //     networks = testNets;
-    // }
-    //
-    // for (let i = 0; i < networks.length; i++) {
-    //     const network = networks[i]
-    //     if (network === hre.network.name) continue
-    //     if (!proxy[network] || !factory[network]) continue
-    //     const chainId = Chains[network]
-    //
-    //     proxyContract.setTrustedRemote(chainId, ethers.utils.solidityPack(["address", "address"], [proxy[network], proxyContract.address]))
-    //     proxyContract.setDstChainIdToBatchLimit(chainId, batchSizeLimit)
-    //     proxyContract.setMinDstGas(chainId, 1, 150000)
-    //
-    //     factoryContract.setTrustedRemote(chainId, ethers.utils.solidityPack(["address", "address"], [factory[network], factoryContract.address]))
-    //     factoryContract.setDstChainIdToBatchLimit(chainId, batchSizeLimit)
-    //     factoryContract.setMinDstGas(chainId, 1, 150000)
-    // }
+    let networks
+    if (mainNets.includes(hre.network.name)) {
+        networks = mainNets
+    } else if (testNets.includes(hre.network.name)) {
+        networks = testNets;
+    }
+
+    for (let i = 0; i < networks.length; i++) {
+        const network = networks[i]
+        const chainId = Chains[network]
+
+        if (network === hre.network.name) continue
+        if (!proxy[network] || !factory[network]) continue
+        console.log('!!!! Setup on ', network)
+
+        proxyContract.setTrustedRemote(chainId, ethers.utils.solidityPack(["address", "address"], [proxy[network], proxyContract.address]))
+        proxyContract.setDstChainIdToBatchLimit(chainId, batchSizeLimit)
+        proxyContract.setMinDstGas(chainId, 1, 150000)
+
+        factoryContract.setTrustedRemote(chainId, ethers.utils.solidityPack(["address", "address"], [factory[network], factoryContract.address]))
+        factoryContract.setDstChainIdToBatchLimit(chainId, batchSizeLimit)
+        factoryContract.setMinDstGas(chainId, 1, 150000)
+    }
 }
 
 setup721().catch((error) => {
