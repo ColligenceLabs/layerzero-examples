@@ -1,7 +1,7 @@
 const { ethers } = require("hardhat")
 
-const LZ_ENDPOINTS = require("../constants/layerzeroEndpoints.json")
-const Chains = require("../constants/chainIds.json")
+const LZ_ENDPOINTS = require("../../constants/layerzeroEndpoints.json")
+const Chains = require("../../constants/chainIds.json")
 const minGasToStore = 40000
 
 const proxy = {

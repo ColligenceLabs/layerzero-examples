@@ -12,6 +12,8 @@ require("hardhat-deploy-ethers")
 require("@openzeppelin/hardhat-upgrades")
 require("./tasks")
 
+const { ETHERSCAN_API_KEY, POLYGONSCAN_API_KEY } = process.env
+
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
@@ -195,4 +197,13 @@ module.exports = {
             accounts: accounts(),
         },
     },
+
+    etherscan: {
+        apiKey: {
+            ethereum: ETHERSCAN_API_KEY,
+            sepolia: ETHERSCAN_API_KEY,
+            polygon: POLYGONSCAN_API_KEY,
+            mumbai: POLYGONSCAN_API_KEY
+        }
+    }
 }
