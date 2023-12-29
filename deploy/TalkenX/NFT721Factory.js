@@ -1,4 +1,6 @@
-const LZ_ENDPOINTS = require("../constants/layerzeroEndpoints.json")
+const LZ_ENDPOINTS = require("../../constants/layerzeroEndpoints.json")
+
+const minGasToStoreAndStore = 40000
 
 module.exports = async function ({ deployments, getNamedAccounts }) {
     const { deploy } = deployments
@@ -8,12 +10,12 @@ module.exports = async function ({ deployments, getNamedAccounts }) {
     const lzEndpointAddress = LZ_ENDPOINTS[hre.network.name]
     console.log(`[${hre.network.name}] Endpoint Address: ${lzEndpointAddress}`)
 
-    await deploy("ProxyOFTV2", {
+    await deploy("NFT721Factory", {
         from: deployer,
-        args: ["0x000000000000000000", 5, lzEndpointAddress],
+        args: [minGasToStoreAndStore, lzEndpointAddress],
         log: true,
         waitConfirmations: 1,
     })
 }
 
-module.exports.tags = ["ProxyOFTV2"]
+module.exports.tags = ["NFT721Factory"]
