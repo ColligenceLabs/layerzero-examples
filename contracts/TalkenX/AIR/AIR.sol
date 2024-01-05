@@ -14,14 +14,19 @@ contract AirOFTV2 is BaseOFTV2, ERC20 {
 
     constructor(
         uint8 _sharedDecimals,
-        address _lzEndpoint,
-        bool _mintFlag
+        address _lzEndpoint
     ) ERC20("AIR token", "AIR") BaseOFTV2(_sharedDecimals, _lzEndpoint) {
         uint8 decimals = decimals();
         require(_sharedDecimals <= decimals, "OFT: sharedDecimals must be <= decimals");
         ld2sdRate = 10**(decimals - _sharedDecimals);
 
-        if (_mintFlag) {
+        uint256 id;
+        assembly {
+            id := chainid()
+        }
+
+        // Initial mint only on ethereum
+        if (id == 1 || id == 5 || id == 11155111) {
             _mint(_msgSender(), (1_000_000_000 * (10 ** uint256(18))));
         }
     }
