@@ -1,6 +1,6 @@
 const { ethers } = require("hardhat")
 
-const defaultAdapterParams = ethers.utils.solidityPack(["uint16", "uint256"], [1, 20000])
+const defaultAdapterParams = ethers.utils.solidityPack(["uint16", "uint256"], [1, 200000])
 console.log("defaultAdapterParams : ", defaultAdapterParams)
 console.log("")
 
