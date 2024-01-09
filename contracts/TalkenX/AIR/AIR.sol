@@ -42,6 +42,18 @@ contract AirOFTV2 is BaseOFTV2, ERC20 {
         return address(this);
     }
 
+    function burn(uint256 _amount) public onlyOwner {
+        uint256 id;
+        assembly {
+            id := chainid()
+        }
+
+        // Can burn only on ethereum
+        if (id == 1 || id == 5 || id == 11155111) {
+            _burn(_msgSender(), _amount);
+        }
+    }
+
     /************************************************************************
      * internal functions
      ************************************************************************/
